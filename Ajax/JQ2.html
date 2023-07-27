@@ -1,0 +1,53 @@
+  <!Docktype html>
+<html lang="ru">
+<head>
+	<meta charset="UTF-8"/>
+ <title>Регистрируемся, господа</title>
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+</head>
+<body>
+ <h1>Форма регистрации</h1>
+ <form>
+	<table>
+		<tr>
+			<td><label for="fio">Имя и фамилия:</label></td>
+			<td><input type="text" id="fio" name="fio"><br></td>
+		</tr>
+		<tr>
+			<td><label for="email">Email:</label></td>
+			<td><input type="email" id="email" name="email"><br></td>
+	 	</tr>
+		<tr>
+			<td><label for="phone">Телефон:</label></td>
+			<td><input type="tel" id="phone" name="phone" pattern="[0-9]{10}"><br></td>
+		</tr>
+	 </table>
+    <button type="button" id="submit">Отправить</button>
+</form>
+ <div id="result"></div>
+ <script>
+  $(document).ready(function() {
+    $("#submit").click(function() {
+        var fio = $("#fio").val();
+        var email = $("#email").val();
+        var phone = $("#phone").val();
+
+        $.ajax({ // это вызов метода `ajax` из библиотеки jQuery, который отправляет AJAX-запрос на сервер.
+            url:"mail.php", //это адрес, по которому будет отправлен AJAX-запрос (по сути в файл mail.php).
+            method: "POST", //это метод HTTP, который будет использоваться для отправки запроса (POST).
+            data: { fio: fio, email: email, phone: phone }, //это параметры запроса, которые будут отправлены на сервер и содержат значения, введенные пользователем 
+            success: function(response) {
+                alert(response);//response  - возвращаемое значение в случае успеха запроса
+            },
+            error: function(xhr, status, error) {
+                console.log(xhr.responseText);
+            }
+			//xhr` является объектом XMLHttpRequest, который используется для выполнения AJAX-запросов на сервер. Он содержит ряд свойств и методов, которые могут быть использованы для обнаружения ошибок.
+			//`status` является строкой, которая содержит описание текущего статуса запроса.
+			//`error` является объектом ошибки, который содержит сообщение об ошибке.
+        });
+    });
+});
+ </script>
+</body>
+</html> 
